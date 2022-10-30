@@ -33,13 +33,21 @@ class HomePage extends GetView<HomePageController> {
               child: Obx(() {
                 List<FavoriteImageData> imageList = controller.imageList;
                 if (imageList.isNotEmpty) {
-                  return ListView.builder(
-                    itemBuilder: (_, index) {
-                      return ImageItemView(
-                        imageList[index],
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await Future.delayed(const Duration(milliseconds: 1000));
+                      controller.searchImage(
+                        controller.searchTextController.text,
                       );
                     },
-                    itemCount: imageList.length,
+                    child: ListView.builder(
+                      itemBuilder: (_, index) {
+                        return ImageItemView(
+                          imageList[index],
+                        );
+                      },
+                      itemCount: imageList.length,
+                    ),
                   );
                 } else {
                   return const SizedBox.shrink();
