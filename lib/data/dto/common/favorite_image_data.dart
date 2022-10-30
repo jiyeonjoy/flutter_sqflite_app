@@ -16,6 +16,10 @@ class FavoriteImageData {
     this.isFavorite = false,
   });
 
+  void changeFavorite() {
+    isFavorite = !isFavorite;
+  }
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {};
     map['datetime'] = datetime;

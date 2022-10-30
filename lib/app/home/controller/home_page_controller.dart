@@ -60,4 +60,16 @@ class HomePageController extends GetxController {
     }
     imageList.value = list;
   }
+
+  void tapFavorite(FavoriteImageData data) {
+    List<FavoriteImageData> list = List<FavoriteImageData>.from(imageList);
+    int findIndex = list.indexWhere(
+          (element) =>
+      element.image_url == data.image_url,
+    );
+    if (findIndex > -1) {
+      list[findIndex].changeFavorite();
+      imageList.value = list;
+    }
+  }
 }

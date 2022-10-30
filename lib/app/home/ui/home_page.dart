@@ -35,7 +35,10 @@ class HomePage extends GetView<HomePageController> {
                 if (imageList.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (_, index) {
-                      return ImageItemView(imageList[index]);
+                      return ImageItemView(
+                        imageList[index],
+                        controller.tapFavorite,
+                      );
                     },
                     itemCount: imageList.length,
                   );

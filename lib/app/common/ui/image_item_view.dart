@@ -11,13 +11,14 @@ import 'package:intl/intl.dart';
 
 class ImageItemView extends StatelessWidget {
   final FavoriteImageData imageDataDto;
-  const ImageItemView(this.imageDataDto, {Key? key}) : super(key: key);
+  final Function(FavoriteImageData) tapFavorite;
+  const ImageItemView(this.imageDataDto, this.tapFavorite, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: edgeInsets(vertical: 8),
-      child: TouchWell(
+      child: GestureDetector(
         onTap: () {
           Get.toNamed(
             AppRoutes.detailPage,
@@ -27,7 +28,6 @@ class ImageItemView extends StatelessWidget {
             }
           );
         },
-        borderRadius: BorderRadius.circular(4),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
@@ -71,7 +71,9 @@ class ImageItemView extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               TouchWell(
-                onTap: () {},
+                onTap: () {
+                  tapFavorite(imageDataDto);
+                },
                 circleBoard: true,
                 child: Container(
                   padding: edgeInsets(all: 8),
