@@ -42,6 +42,9 @@ class HomePage extends GetView<HomePageController> {
                     },
                     child: ListView.builder(
                       itemBuilder: (_, index) {
+                        if (index == imageList.length - 1) {
+                          controller.loadMoreList();
+                        }
                         return ImageItemView(
                           imageList[index],
                         );

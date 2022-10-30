@@ -21,6 +21,12 @@ class HomePageController extends GetxController {
   final TextEditingController searchTextController = TextEditingController();
   final FocusNode searchTextFocusNode = FocusNode();
 
+  bool refreshing = false;
+  bool loadMoreFlag = false;
+  int pageIndex = 1; // 1 - 50
+  final int maxPage = 50;
+  final int pageSize = 20; // 1 - 80
+
   @override
   void onClose() {
     searchTextController.dispose();
@@ -32,22 +38,59 @@ class HomePageController extends GetxController {
     if (text.trim().isEmpty) {
       JnbSnackBar.show(R.string.searchTextFieldHint);
     } else {
-      final getImageList = await searchApiUseCase.getImageList(text);
+      refreshing = true;
+      pageIndex = 1;
+      final getImageList = await searchApiUseCase.getImageList(
+        text,
+        page: pageIndex,
+        size: pageSize,
+      );
       getImageList.when(success: (SearchImageDto resp) {
         if (resp.documents?.isNotEmpty ?? false) {
-          setImageFavorite(resp.documents ?? []);
+          imageList.value = setImageFavorite(resp.documents ?? []);
+          loadMoreFlag = !(resp.meta?.is_end ?? true) && pageIndex < maxPage;
         } else {
           imageList.value = [];
           JnbSnackBar.show(R.string.searchImageNotFound);
         }
+        refreshing = false;
       }, failure: (error) {
+        imageList.value = [];
         logger.d(error);
+        refreshing = false;
         JnbSnackBar.show(error.toString());
       });
     }
   }
 
-  void setImageFavorite(List<SearchImageDataDto> images) {
+  void loadMoreList() async {
+    if (refreshing || !loadMoreFlag || pageIndex == maxPage) {
+      return;
+    }
+    refreshing = true;
+    pageIndex++;
+    String text = searchTextController.text;
+    final getImageList = await searchApiUseCase.getImageList(
+      text,
+      page: pageIndex,
+      size: pageSize,
+    );
+    getImageList.when(success: (SearchImageDto resp) {
+      if (resp.documents?.isNotEmpty ?? false) {
+        List<FavoriteImageData> list = List<FavoriteImageData>.from(imageList);
+        list.addAll(setImageFavorite(resp.documents ?? []));
+        imageList.value = list;
+        loadMoreFlag = !(resp.meta?.is_end ?? true) && pageIndex < maxPage;
+      }
+      refreshing = false;
+    }, failure: (error) {
+      logger.d(error);
+      refreshing = false;
+      JnbSnackBar.show(error.toString());
+    });
+  }
+
+  List<FavoriteImageData> setImageFavorite(List<SearchImageDataDto> images) {
     List<FavoriteImageData> list = [];
     for (SearchImageDataDto dto in images) {
       list.add(FavoriteImageData(
@@ -59,7 +102,7 @@ class HomePageController extends GetxController {
         isFavorite: checkFavorite(dto),
       ));
     }
-    imageList.value = list;
+    return list;
   }
 
   bool checkFavorite(SearchImageDataDto dto) {
