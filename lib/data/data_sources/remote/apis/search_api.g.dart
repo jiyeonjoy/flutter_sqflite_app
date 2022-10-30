@@ -19,9 +19,20 @@ class _SearchApi implements SearchApi {
   String? baseUrl;
 
   @override
-  Future<SearchImageDto> getImageList(query) async {
+  Future<SearchImageDto> getImageList(
+    query, {
+    sort,
+    page,
+    size,
+  }) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'query': query};
+    final queryParameters = <String, dynamic>{
+      r'query': query,
+      r'sort': sort,
+      r'page': page,
+      r'size': size,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio

@@ -6,9 +6,19 @@ import 'package:flutter_jab_app/domain/repositories/search_api_repository.dart';
 
 class SearchApiRepositoryImpl implements SearchApiRepository {
   @override
-  Future<ApiResult<SearchImageDto>> getImageList(String searchText) async {
+  Future<ApiResult<SearchImageDto>> getImageList(
+    String searchText, {
+    String? sort,
+    int? page,
+    int? size,
+  }) async {
     try {
-      var response = await JaBHttpClient().searchApi.getImageList(searchText);
+      var response = await JaBHttpClient().searchApi.getImageList(
+        searchText,
+        sort: sort,
+        page: page,
+        size: size,
+      );
 
       return ApiResult.success(data: response);
     } catch (e) {

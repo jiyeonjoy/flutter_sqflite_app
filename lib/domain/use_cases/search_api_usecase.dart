@@ -7,7 +7,17 @@ class SearchApiUseCase {
 
   SearchApiUseCase(this.repository);
 
-  Future<ApiResult<SearchImageDto>> getImageList(String searchText) {
-    return repository.getImageList(searchText);
+  Future<ApiResult<SearchImageDto>> getImageList(
+    String searchText, {
+    String? sort,
+    int? page,
+    int? size,
+  }) {
+    return repository.getImageList(
+      searchText,
+      sort: sort,
+      page: page,
+      size: size,
+    );
   }
 }
