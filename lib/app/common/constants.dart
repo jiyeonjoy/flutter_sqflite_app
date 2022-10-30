@@ -7,4 +7,5 @@ class AppConstants {
   static const REST_API_KEY = 'd7e5ad536501f252c93f2b2b88b9668a';
 
   static const String IMAGE_URL = "IMAGE_URL";
+  static const String IMAGE_SITE_NAME = "IMAGE_SITE_NAME";
 }

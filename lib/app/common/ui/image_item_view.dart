@@ -23,6 +23,7 @@ class ImageItemView extends StatelessWidget {
             AppRoutes.detailPage,
             arguments: {
               AppConstants.IMAGE_URL: imageDataDto.image_url,
+              AppConstants.IMAGE_SITE_NAME: imageDataDto.display_sitename,
             }
           );
         },
