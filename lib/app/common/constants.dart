@@ -5,4 +5,6 @@ class AppConstants {
   static const HTTP_READ_TIMEOUT = 30;
 
   static const REST_API_KEY = 'd7e5ad536501f252c93f2b2b88b9668a';
+
+  static const String IMAGE_URL = "IMAGE_URL";
 }
