@@ -39,11 +39,14 @@ class ImageItemView extends StatelessWidget {
           padding: edgeInsets(all: 16, end: 8),
           child: Row(
             children: [
-              CachedNetworkImage(
-                imageUrl: imageDataDto.thumbnail_url,
-                width: 100,
-                height: 100,
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              Hero(
+                tag: imageDataDto.image_url,
+                child: CachedNetworkImage(
+                  imageUrl: imageDataDto.thumbnail_url,
+                  width: 100,
+                  height: 100,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(

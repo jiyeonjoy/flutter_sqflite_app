@@ -17,11 +17,14 @@ class DetailPage extends GetView<DetailPageController> {
         ),
       ),
       body: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: CachedNetworkImage(
-            imageUrl: controller.imageUrl,
+        child: Hero(
+          tag: controller.imageUrl,
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: CachedNetworkImage(
+              imageUrl: controller.imageUrl,
+            ),
           ),
         )
       )
