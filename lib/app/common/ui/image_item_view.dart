@@ -5,14 +5,14 @@ import 'package:flutter_jab_app/app/common/config/r.dart';
 import 'package:flutter_jab_app/app/common/constants.dart';
 import 'package:flutter_jab_app/app/common/ui/edge_insets.dart';
 import 'package:flutter_jab_app/app/common/ui/touch_well.dart';
+import 'package:flutter_jab_app/app/root/controller/root_page_controller.dart';
 import 'package:flutter_jab_app/data/dto/common/favorite_image_data.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ImageItemView extends StatelessWidget {
   final FavoriteImageData imageDataDto;
-  final Function(FavoriteImageData) tapFavorite;
-  const ImageItemView(this.imageDataDto, this.tapFavorite, {Key? key}) : super(key: key);
+  const ImageItemView(this.imageDataDto, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class ImageItemView extends StatelessWidget {
               const SizedBox(width: 16),
               TouchWell(
                 onTap: () {
-                  tapFavorite(imageDataDto);
+                  RootPageController.to.changeFavoriteList(imageDataDto);
                 },
                 circleBoard: true,
                 child: Container(

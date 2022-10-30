@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jab_app/app/home/controller/home_page_controller.dart';
+import 'package:flutter_jab_app/data/dto/common/favorite_image_data.dart';
 import 'package:get/get.dart';
 import 'package:flutter_jab_app/app/common/config/r.dart';
 
@@ -7,9 +9,39 @@ class RootPageController extends GetxController {
 
   RootTab currentTab = RootTab.home;
 
+  var favoriteList = <FavoriteImageData>[].obs;
+  final int maxFavoriteCount = 100;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getSavedFavoriteList();
+  }
+
   void changeTab(int index) {
     currentTab = RootTab.from(index);
     update();
+  }
+
+  void getSavedFavoriteList() {
+  }
+
+  void changeFavoriteList(FavoriteImageData data) {
+    List<FavoriteImageData> list = List<FavoriteImageData>.from(favoriteList);
+    if (data.isFavorite) {
+      int findIndex = list.indexWhere(
+            (element) =>
+        element.image_url == data.image_url,
+      );
+      if (findIndex > -1) {
+        list.removeAt(findIndex);
+        favoriteList.value = list;
+      }
+    } else {
+      list.add(data);
+      favoriteList.value = list;
+    }
+    HomePageController.to.tapFavorite(data);
   }
 }
 
