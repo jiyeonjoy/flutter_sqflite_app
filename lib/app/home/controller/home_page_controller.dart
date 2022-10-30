@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jab_app/app/common/config/r.dart';
 import 'package:flutter_jab_app/app/common/logger.dart';
 import 'package:flutter_jab_app/app/common/ui/jnb_snackbar.dart';
+import 'package:flutter_jab_app/data/dto/common/favorite_image_data.dart';
 import 'package:flutter_jab_app/data/dto/response/search/search_image_data_dto.dart';
 import 'package:flutter_jab_app/data/dto/response/search/search_image_dto.dart';
 import 'package:flutter_jab_app/data/repositories/search_api_repo_impl.dart';
@@ -14,7 +15,7 @@ class HomePageController extends GetxController {
   final SearchApiUseCase searchApiUseCase =
       SearchApiUseCase(SearchApiRepositoryImpl());
 
-  var imageList = <SearchImageDataDto>[].obs;
+  var imageList = <FavoriteImageData>[].obs;
 
   final TextEditingController searchTextController = TextEditingController();
   final FocusNode searchTextFocusNode = FocusNode();
@@ -33,7 +34,7 @@ class HomePageController extends GetxController {
       final getImageList = await searchApiUseCase.getImageList(text);
       getImageList.when(success: (SearchImageDto resp) {
         if (resp.documents?.isNotEmpty ?? false) {
-          imageList.value = resp.documents ?? [];
+          setImageFavorite(resp.documents ?? []);
         } else {
           imageList.value = [];
           JnbSnackBar.show(R.string.searchImageNotFound);
@@ -43,5 +44,20 @@ class HomePageController extends GetxController {
         JnbSnackBar.show(error.toString());
       });
     }
+  }
+
+  void setImageFavorite(List<SearchImageDataDto> images) {
+    List<FavoriteImageData> list = [];
+    for (SearchImageDataDto dto in images) {
+      list.add(FavoriteImageData(
+        datetime: dto.datetime,
+        display_sitename: dto.display_sitename,
+        doc_url: dto.doc_url,
+        image_url: dto.image_url,
+        thumbnail_url: dto.image_url,
+        isFavorite: false,
+      ));
+    }
+    imageList.value = list;
   }
 }

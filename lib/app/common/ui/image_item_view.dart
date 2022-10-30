@@ -5,12 +5,12 @@ import 'package:flutter_jab_app/app/common/config/r.dart';
 import 'package:flutter_jab_app/app/common/constants.dart';
 import 'package:flutter_jab_app/app/common/ui/edge_insets.dart';
 import 'package:flutter_jab_app/app/common/ui/touch_well.dart';
-import 'package:flutter_jab_app/data/dto/response/search/search_image_data_dto.dart';
+import 'package:flutter_jab_app/data/dto/common/favorite_image_data.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ImageItemView extends StatelessWidget {
-  final SearchImageDataDto imageDataDto;
+  final FavoriteImageData imageDataDto;
   const ImageItemView(this.imageDataDto, {Key? key}) : super(key: key);
 
   @override
@@ -75,8 +75,12 @@ class ImageItemView extends StatelessWidget {
                 circleBoard: true,
                 child: Container(
                   padding: edgeInsets(all: 8),
-                  child: Icon(
+                  child: imageDataDto.isFavorite ? Icon(
                     Icons.star,
+                    color: R.color.black,
+                    size: 24.0,
+                  ) : Icon(
+                    Icons.star_border,
                     color: R.color.black,
                     size: 24.0,
                   ),

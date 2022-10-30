@@ -4,7 +4,7 @@ import 'package:flutter_jab_app/app/common/ui/edge_insets.dart';
 import 'package:flutter_jab_app/app/common/ui/image_item_view.dart';
 import 'package:flutter_jab_app/app/common/ui/jnb_text_field.dart';
 import 'package:flutter_jab_app/app/home/controller/home_page_controller.dart';
-import 'package:flutter_jab_app/data/dto/response/search/search_image_data_dto.dart';
+import 'package:flutter_jab_app/data/dto/common/favorite_image_data.dart';
 import 'package:get/get.dart';
 
 class HomePage extends GetView<HomePageController> {
@@ -31,7 +31,7 @@ class HomePage extends GetView<HomePageController> {
             ),
             Expanded(
               child: Obx(() {
-                List<SearchImageDataDto> imageList = controller.imageList;
+                List<FavoriteImageData> imageList = controller.imageList;
                 if (imageList.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (_, index) {
