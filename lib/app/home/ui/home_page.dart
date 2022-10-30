@@ -30,18 +30,17 @@ class HomePage extends GetView<HomePageController> {
             ),
             Expanded(
               child: Obx(() {
-               List<SearchImageDataDto> imageList = controller.imageList;
+                List<SearchImageDataDto> imageList = controller.imageList;
 
-               if (imageList.isNotEmpty) {
-                 return Container(
-                   width: double.infinity,
-                   color: R.color.black,
-                 );
-               } else {
-                 return Container();
-               }
-              }
-              ),
+                if (imageList.isNotEmpty) {
+                  return Container(
+                    width: double.infinity,
+                    color: R.color.black,
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
             ),
           ],
         ),
