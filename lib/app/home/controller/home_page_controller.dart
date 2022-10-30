@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jab_app/app/common/config/r.dart';
 import 'package:flutter_jab_app/app/common/logger.dart';
 import 'package:flutter_jab_app/app/common/ui/jnb_snackbar.dart';
+import 'package:flutter_jab_app/app/root/controller/root_page_controller.dart';
 import 'package:flutter_jab_app/data/dto/common/favorite_image_data.dart';
 import 'package:flutter_jab_app/data/dto/response/search/search_image_data_dto.dart';
 import 'package:flutter_jab_app/data/dto/response/search/search_image_dto.dart';
@@ -55,10 +56,22 @@ class HomePageController extends GetxController {
         doc_url: dto.doc_url,
         image_url: dto.image_url,
         thumbnail_url: dto.image_url,
-        isFavorite: false,
+        isFavorite: checkFavorite(dto),
       ));
     }
     imageList.value = list;
+  }
+
+  bool checkFavorite(SearchImageDataDto dto) {
+    bool isFavorite = false;
+    List<FavoriteImageData> savedList = List<FavoriteImageData>.from(RootPageController.to.favoriteList);
+    for (FavoriteImageData data in savedList) {
+      if (data.image_url == dto.image_url) {
+        isFavorite = true;
+        break;
+      }
+    }
+    return isFavorite;
   }
 
   void tapFavorite(FavoriteImageData data) {
