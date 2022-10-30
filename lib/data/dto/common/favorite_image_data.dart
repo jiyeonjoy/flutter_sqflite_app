@@ -27,7 +27,7 @@ class FavoriteImageData {
     map['doc_url'] = doc_url;
     map['image_url'] = image_url;
     map['thumbnail_url'] = thumbnail_url;
-    map['isFavorite'] = isFavorite;
+    map['isFavorite'] = isFavorite == true ? 1 : 0;
 
     return map;
   }
@@ -39,7 +39,7 @@ class FavoriteImageData {
       doc_url: json['doc_url'],
       image_url: json['image_url'],
       thumbnail_url: json['thumbnail_url'],
-      isFavorite: json['isFavorite'],
+      isFavorite: json['isFavorite'] == 1,
     );
   }
 }

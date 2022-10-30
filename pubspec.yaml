@@ -34,6 +34,10 @@ dependencies:
   # localization
   intl: ^0.17.0
 
+  # database
+  sqflite: ^2.0.2
+  path: ^1.8.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

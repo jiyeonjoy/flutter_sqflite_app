@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jab_app/app/home/controller/home_page_controller.dart';
 import 'package:flutter_jab_app/data/dto/common/favorite_image_data.dart';
+import 'package:flutter_jab_app/utils/db_helper.dart';
 import 'package:get/get.dart';
 import 'package:flutter_jab_app/app/common/config/r.dart';
 
@@ -23,12 +24,18 @@ class RootPageController extends GetxController {
     update();
   }
 
-  void getSavedFavoriteList() {
+  void getSavedFavoriteList() async {
+    List<FavoriteImageData> list = await DBHelper().getAllFavoriteListModels();
+    if (list.isNotEmpty) {
+      favoriteList.value = list;
+    }
   }
 
-  void changeFavoriteList(FavoriteImageData data) {
+  void changeFavoriteList(FavoriteImageData data) async {
+    data.changeFavorite();
+    HomePageController.to.tapFavorite(data);
     List<FavoriteImageData> list = List<FavoriteImageData>.from(favoriteList);
-    if (data.isFavorite) {
+    if (!data.isFavorite) {
       int findIndex = list.indexWhere(
             (element) =>
         element.image_url == data.image_url,
@@ -36,12 +43,13 @@ class RootPageController extends GetxController {
       if (findIndex > -1) {
         list.removeAt(findIndex);
         favoriteList.value = list;
+        await DBHelper().deleteFavoriteListModel(data.image_url);
       }
     } else {
       list.add(data);
       favoriteList.value = list;
+      await DBHelper().createData(data);
     }
-    HomePageController.to.tapFavorite(data);
   }
 }
 

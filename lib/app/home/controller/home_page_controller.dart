@@ -81,7 +81,6 @@ class HomePageController extends GetxController {
       element.image_url == data.image_url,
     );
     if (findIndex > -1) {
-      list[findIndex].changeFavorite();
       imageList.value = list;
     }
   }
