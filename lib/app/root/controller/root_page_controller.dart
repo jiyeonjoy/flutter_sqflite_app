@@ -46,7 +46,7 @@ class RootPageController extends GetxController {
         await DBHelper().deleteFavoriteListModel(data.image_url);
       }
     } else {
-      list.add(data);
+      list.insert(0, data);
       favoriteList.value = list;
       await DBHelper().createData(data);
     }

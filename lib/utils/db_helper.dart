@@ -64,7 +64,7 @@ class DBHelper {
   // READ ALL DATA
   Future<List<FavoriteImageData>> getAllFavoriteListModels() async {
     final db = await database;
-    var res = await db.query(tableName);
+    var res = await db.query(tableName, orderBy: 'id DESC');
     List<FavoriteImageData> list =
     res.isNotEmpty ? res.map((c) => FavoriteImageData.fromJson(c)).toList() : [];
     return list;
